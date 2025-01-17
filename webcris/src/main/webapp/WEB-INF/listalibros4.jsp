@@ -29,31 +29,30 @@ if (tipobusqueda != null && textobusqueda != null) {
 		lista = repo.buscarPorAutor(textobusqueda);
 	} else {
 
-		
 	}
-}else {
+	}else {
 	lista = repo.buscarTodos();
+	
 %>
 <body>
 	<form method="get">
 		<select name="tipobusqueda">
-			<option>titulo</option>
-			<option>autor</option>
-
-		</select> <input type="text" name="textobusqueda" /> 
-		<input type="submit"
-			value="buscar" />
+		<option>titulo</option>
+		<option>autor</option>
+		</select> <input type="text" name="textobusqueda"/> 
+		<input type="submit" value="buscar"/>
+		
 	</form>
 
 	<h1>Lista de Libros</h1>
-	<table>
-		<caption>Titulo de tabla</caption>
-		<tr>
-			<th>isbn</th>
-			<th>titulo</th>
-			<th>autor</th>
-			<th>paginas</th>
-		</tr>
+		<table>
+			<caption>Titulo de tabla</caption>
+				<tr>
+				<th>isbn</th>
+				<th>titulo</th>
+				<th>autor</th>
+				<th>paginas</th>
+				</tr>
 
 		<%for (Libro libro : lista) {%>
 		<!-- fila o row tr (table row) -->
@@ -63,16 +62,7 @@ if (tipobusqueda != null && textobusqueda != null) {
 			<td><%=libro.getAutor()%></td>
 			<td><%=libro.getPaginas()%></td>
 		</tr>
-		<%}%>
-	</table>
-
-
-
-
-
-
-
-
-
+		<%} %>
+		</table>
 </body>
 </html>
