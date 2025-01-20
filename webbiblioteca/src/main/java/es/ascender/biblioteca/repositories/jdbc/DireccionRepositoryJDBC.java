@@ -8,38 +8,37 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ascender.biblioteca.negocio.Direccion;
+import es.ascender.biblioteca.repositories.DireccionRepository;
 
-import es.ascender.biblioteca.negocio.Socio;
-import es.ascender.biblioteca.repositories.SocioRepository;
 
+public class DireccionRepositoryJDBC implements DireccionRepository {
 
-public class SocioRepositoryJDBC implements SocioRepository {
-	
 	static final String DB_URL="jdbc:mysql://localhost:3306/biblioteca";
 	static final String USER="root";
-	static final String PASS="";
-
+	static final String PASS="";	
+	
 	@Override
-	public List<Socio> buscarTodos() {
+	public List<Direccion> buscarTodos() {
 
 		Connection conexion = null;
 		Statement sentencia = null;
 		ResultSet rs = null;
-		List<Socio> lista= new ArrayList<Socio>();
+		List<Direccion> lista= new ArrayList<Direccion>();
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion=DriverManager.getConnection(DB_URL,USER,PASS);
-			// esta linea es para preparar la sentencia sql a lanzar
+			
 			sentencia = conexion.createStatement();
 
-			rs=sentencia.executeQuery("select* from socios");
+			rs=sentencia.executeQuery("select * from direccion");
 			
 			while (rs.next()) {
 				
-				Socio s= new Socio(rs.getString("dni"),
-						rs.getString("nombre"),rs.getString("apellidos"));
-				lista.add(s);
+				Direccion d= new Direccion(rs.getString("dni"),
+						rs.getString("calle"),rs.getInt("numero"),rs.getInt("codigo"));
+				lista.add(d);
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
@@ -51,20 +50,20 @@ public class SocioRepositoryJDBC implements SocioRepository {
 	}
 
 	@Override
-	public void insertar(Socio socio) {
+	public void insertar(Direccion direccion) {
 		Connection conexion=null;
 		Statement sentencia=null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion=DriverManager.getConnection(DB_URL,USER,PASS);
 			sentencia=conexion.createStatement();
-			String insertarSql = "insert into socios value('"+socio.getDni()+"','"
-			+socio.getNombre()+"','"+socio.getApellidos()+"')";
+			String insertarSql = "insert into direccion values ('"+direccion.getDni()+"','"
+			+direccion.getCalle()+"','"+direccion.getNumero()+"','"+direccion.getCodigo()+"')";
+			
+			
+			System.out.println(insertarSql);
 			
 			sentencia.executeUpdate(insertarSql);
-			
-			System.out.println(socio);
-			
 			
 		} catch (ClassNotFoundException |SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +73,7 @@ public class SocioRepositoryJDBC implements SocioRepository {
 	}
 
 	@Override
-	public void borrar(Socio socio) {
+	public void borrar(Direccion direccion) {
 		// TODO Auto-generated method stub
 	
 	Connection conexion=null;
@@ -84,7 +83,7 @@ public class SocioRepositoryJDBC implements SocioRepository {
 		conexion=DriverManager.getConnection(DB_URL,USER,PASS);
 		sentencia=conexion.createStatement();
 		
-		String borrarSql = "delete from socios where dni='"+socio.getDni()+"'";
+		String borrarSql = "delete from direccion where calle='"+direccion.getCalle()+"' and numero="+direccion.getNumero();
 		System.out.println(borrarSql);
 		
 		sentencia.executeUpdate(borrarSql);		
@@ -96,27 +95,26 @@ public class SocioRepositoryJDBC implements SocioRepository {
 
 }
 	@Override
-	public List<Socio> buscarTodosOrdenados(String orden) {
+	public List<Direccion> buscarTodosOrdenados(String orden) {
 		Connection conexion = null;
 		Statement sentencia = null;
 		ResultSet rs = null;
-		List<Socio> lista= new ArrayList<Socio>();
+		List<Direccion> lista= new ArrayList<Direccion>();
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexion=DriverManager.getConnection(DB_URL,USER,PASS);
-			// esta linea es para preparar la sentencia sql a lanzar
+			
 			sentencia = conexion.createStatement();
 
-			rs=sentencia.executeQuery("select* from socios order by " + orden);
+			rs=sentencia.executeQuery("select* from direccion order by " + orden);
 			
-			while (rs.next()) {
+while (rs.next()) {
 				
-				Socio s= new Socio(rs.getString("dni"),
-						rs.getString("nombre"),rs.getString("apellidos"));
-				lista.add(s);
+				Direccion d= new Direccion(rs.getString("dni"),
+						rs.getString("calle"),rs.getInt("numero"), rs.getInt("codigo"));
+				lista.add(d);
 			}
-
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
