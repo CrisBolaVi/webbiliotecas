@@ -72,10 +72,10 @@ public class DireccionRepositoryJDBC implements DireccionRepository {
 		
 	}
 
+	
 	@Override
 	public void borrar(Direccion direccion) {
-		// TODO Auto-generated method stub
-	
+		
 	Connection conexion=null;
 	Statement sentencia=null;
 	try {
@@ -94,6 +94,8 @@ public class DireccionRepositoryJDBC implements DireccionRepository {
 	}
 
 }
+	
+	
 	@Override
 	public List<Direccion> buscarTodosOrdenados(String orden) {
 		Connection conexion = null;
